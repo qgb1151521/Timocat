@@ -1,2 +1,3 @@
 # Timocat
-A simple http server for java.
+
+一个用 Java 写的简单的 http server。
