@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import timocat.FileProc;
 
 public class Server {
 
