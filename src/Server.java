@@ -21,7 +21,6 @@ public class Server {
 
             Socket socket = server.accept();
             System.out.println("connection comming");
-            Reader reader = new InputStreamReader(socket.getInputStream());
 
             System.out.println("start to read");
 
@@ -37,7 +36,30 @@ public class Server {
             String html = "";
 
             if (path.equals("/")) {
-                html = "<h1>Welcome to my home page!</h1>";
+                // html = "<h1>Welcome to my home page!</h1>";
+                Reader reader = null;
+                char[] tempchars = new char[1024];
+                try {
+                    int charread = 0;
+                    reader = new InputStreamReader(new FileInputStream("./index.html"));
+
+                    while ((charread = reader.read(tempchars)) != -1) {
+                        html += String.valueOf(tempchars);
+                    }
+
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close();
+                        } catch (IOException e1) {
+                        }
+                    }
+                }
+
+                // html = tempchars.toString();
+                // System.out.println(tempchars.toString());
             } else if (path.equals("/shutdown")) {
                 html = "<h1>Welcome to shutdown my computer!</h1>";
                 Process p = Runtime.getRuntime().exec("shutdown -s -t 120");
@@ -64,7 +86,6 @@ public class Server {
             os.println(data);
             os.flush();
 
-            reader.close();
             socket.close();
             is.close();
             sin.close();
