@@ -14,6 +14,7 @@ public class Server {
 
     public static void main(String args[]) throws IOException {
         int port = 8899;
+        String www_path = "D:/timocat/www/";
         ServerSocket server = new ServerSocket(port);
         System.out.println("server listen...");
 
@@ -66,6 +67,14 @@ public class Server {
             } else if (path.equals("/noshutdown")) {
                 html = "<h1>Don\'t shutdown my computer!</h1>";
                 Process p = Runtime.getRuntime().exec("shutdown -a");
+            } else {
+                FileProc fp = new FileProc();
+                path = www_path + path;
+                System.out.println("Check file " + path);
+                if (fp.exist(path)) {
+                    System.out.println("File exist~");
+                    html = fp.getFile(path);
+                }
             }
 
             String headers = "HTTP/1.1 200 OK\r\n" +
